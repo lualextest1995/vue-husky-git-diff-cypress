@@ -8,6 +8,8 @@ import cypress from 'cypress'
 
 const git = simpleGit()
 
+const testList = ['src/views/HomeView/index.vue', 'src/views/AboutView/index.vue']
+
 async function main() {
   try {
     console.log('Fetching origin/main…')
@@ -17,7 +19,17 @@ async function main() {
     const summary = await git.diffSummary(['origin/main...HEAD'])
     const changedFiles = summary.files.map((f) => f.file)
 
-    const viewFiles = changedFiles.filter((f) => f.startsWith('src/views/'))
+    const viewFiles = changedFiles.filter((f) => {
+      const isView = f.startsWith('src/views/')
+      // 待測試補齊後，可以把 shouldTest 跟 testList 相關都刪掉
+      const shouldTest = testList.includes(f)
+      if (isView && !shouldTest) {
+        console.warn(`⚠️ 白名單允許無測試：${f}`)
+        return false
+      }
+      return isView && shouldTest
+    })
+
     if (viewFiles.length === 0) {
       console.log('🚫 沒有 src/views 下的變動，跳過 E2E。')
       process.exit(0)
