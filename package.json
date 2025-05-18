@@ -15,7 +15,7 @@
     "lint:eslint": "eslint . --fix",
     "lint": "run-s lint:*",
     "format": "prettier --write src/",
-    "test:changed": "node ./scripts/run-changed-e2e.js"
+    "test:changed": "npm run build && concurrently -k -s first -n PREVIEW,E2E \"npm run preview\" \"node ./scripts/run-changed-e2e.js\""
   },
   "dependencies": {
     "pinia": "^3.0.1",
@@ -28,6 +28,7 @@
     "@vitest/eslint-plugin": "^1.1.39",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/test-utils": "^2.4.6",
+    "concurrently": "^9.1.2",
     "cypress": "^14.3.3",
     "eslint": "^9.22.0",
     "eslint-plugin-cypress": "^4.2.0",
