@@ -1,9 +1,10 @@
 #!/usr/bin/env node
+/* eslint-disable no-undef */
 
 import path from 'path'
 import fs from 'fs'
 import simpleGit from 'simple-git'
-import { execSync } from 'child_process'
+import cypress from 'cypress'
 
 const git = simpleGit()
 
@@ -39,14 +40,26 @@ async function main() {
       console.log('❌ 找不到對應的 spec，請確認檔案命名或路徑對應規則。')
       process.exit(1)
     }
+    try {
+      const results = await cypress.run({
+        // 將多個 spec 以逗號串接
+        spec: specs.join(','),
+      })
 
-    console.log('執行以下 specs：', specs.join(', '))
-    console.log('cypress 待捕')
+      if (results.totalFailed === 0) {
+        console.log('✅ E2E 測試成功！')
+      } else {
+        console.error(`❌ E2E 測試失敗：${results.totalFailed} 個測試失敗`)
+        process.exit(1)
+      }
+    } catch (error) {
+      console.error('❌ E2E 執行失敗：', error.message)
+      process.exit(1)
+    }
   } catch (err) {
     console.error('執行失敗：', err.message)
     process.exit(1)
   }
 }
 
-// 執行主流程（請確保檔案為 .mjs，或在 package.json 設定 "type": "module"）
 await main()
