@@ -8,7 +8,11 @@ import cypress from 'cypress'
 
 const git = simpleGit()
 
-const testList = ['src/views/HomeView/index.vue', 'src/views/AboutView/index.vue']
+const testList = [
+  'src/views/HomeView/index.vue',
+  'src/views/AboutView/index.vue',
+  'src/views/firstModule/firstPage/index.vue',
+]
 
 async function main() {
   try {

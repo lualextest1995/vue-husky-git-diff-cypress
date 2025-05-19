@@ -1,0 +1,26 @@
+{
+  "developer": {
+    "firstModule": {
+      "firstPage": ["read", "create", "update", "delete", "search"],
+      "secondPage": ["read"]
+    },
+    "secondModule": {
+      "firstPage": ["read", "create", "delete"]
+    },
+    "thirdModule": {
+      "firstPage": ["read", "create", "update", "delete"],
+      "secondPage": ["read", "create", "delete"],
+      "thirdPage": ["read"]
+    }
+  },
+  "agent": {
+    "firstModule": {
+      "firstPage": ["read"],
+      "secondPage": ["read"]
+    },
+    "thirdModule": {
+      "firstPage": ["read"],
+      "secondPage": ["read"]
+    }
+  }
+}
